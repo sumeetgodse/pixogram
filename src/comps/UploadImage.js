@@ -1,29 +1,29 @@
 import React, { useState } from "react";
 import Progress from "./Progress";
 
-const UploadImage=()=>{
-    
-    const [file,setFile]=useState(null);
-    const [error,setError]=useState(null);
-    const types=['image/png','image/jpeg','image/jpg']
+const UploadImage = () => {
 
-    const changeHandler=(e)=>{
-        let selected=e.target.files[0];
+    const [file, setFile] = useState(null);
+    const [error, setError] = useState(null);
+    const types = ['image/png', 'image/jpeg', 'image/jpg']
 
-        if(selected && types.includes(selected.type) ){
+    const changeHandler = (e) => {
+        let selected = e.target.files[0];
+
+        if (selected && types.includes(selected.type)) {
             setFile(selected);
             setError(null);
         }
-        else{
+        else {
             setFile(null);
             setError('Please select correct file type (png or jpg)');
         }
     }
-    
-    return(
+
+    return (
         <form>
             <label>+
-            <input type="file" onChange={changeHandler} />
+                <input type="file" onChange={changeHandler} />
             </label>
             <div className="output">
                 {error && <div className="error">{error}</div>}
