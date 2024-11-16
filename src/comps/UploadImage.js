@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import Progress from "./Progress";
 
-const UploadImage = () => {
+const UploadImage = ({ uploadFile }) => {
 
     const [file, setFile] = useState(null);
     const [error, setError] = useState(null);
@@ -12,9 +11,9 @@ const UploadImage = () => {
 
         if (selected && types.includes(selected.type)) {
             setFile(selected);
+            uploadFile(selected)
             setError(null);
-        }
-        else {
+        } else {
             setFile(null);
             setError('Please select correct file type (png or jpg)');
         }
@@ -27,8 +26,7 @@ const UploadImage = () => {
             </label>
             <div className="output">
                 {error && <div className="error">{error}</div>}
-                {file && <div >{file.name}</div>}
-                {file && <Progress file={file} setFile={setFile} />}
+                {file && <div >Most recent uploaded : {file.name}</div>}
             </div>
         </form>
     )

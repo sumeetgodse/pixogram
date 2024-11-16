@@ -1,9 +1,8 @@
-import firebase from 'firebase/app';
-import 'firebase/storage';
-import 'firebase/firestore';
+import { initializeApp } from 'firebase/app';
+import { getStorage } from 'firebase/storage';
 
 // Your web app's Firebase configuration
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyDR1vTGLTB4VDbfVyBRD2AbpXon3KQPC-0",
   authDomain: "pixogram-4186b.firebaseapp.com",
   projectId: "pixogram-4186b",
@@ -12,10 +11,6 @@ var firebaseConfig = {
   appId: "1:166905109330:web:5ec542a6495dfffecff88b"
 };
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-const projectStorage = firebase.storage();
-const projectFirestore = firebase.firestore();
-const timeStamp = firebase.firestore.FieldValue.serverTimestamp;
-
-export { projectStorage, projectFirestore, timeStamp };
+export const storage = getStorage(app)

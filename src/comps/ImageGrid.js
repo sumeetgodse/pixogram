@@ -1,23 +1,41 @@
-import React from "react";
-import useFirestore from "../hooks/useFirestore"
+import React, { useEffect } from "react";
 import { motion } from "framer-motion"
+import {
+    ref,
+    getDownloadURL,
+    listAll,
+} from "firebase/storage";
+import { storage } from "../firebase/config";
 
-const ImageGrid = ({ setSelectedImg }) => {
-    const { docs } = useFirestore('images');
+const ImageGrid = ({ setSelectedImg, imageUrls, setImageUrls }) => {
+    const imagesListRef = ref(storage, "images/");
+
+    useEffect(() => {
+        listAll(imagesListRef).then((response) => {
+            response.items.forEach((item) => {
+                getDownloadURL(item).then((url) => {
+                    setImageUrls((prev) => [...prev, url]);
+                });
+            });
+        });
+    }, []);
 
     return (
         <div className="row">
-            {docs && docs.map(doc => (
-                <motion.div className="column" key={doc.id}
-                    layout
-                    whileHover={{ scale: 1.05 }}
-                    onClick={() => setSelectedImg(doc.url)}
-                >
-                    <img src={doc.url} alt='pic' />
-                </motion.div>
-            ))}
+            {imageUrls && imageUrls.map((imageUrl, index) => {
+                return (
+                    <motion.div className="column" key={imageUrl + index}
+                        layout
+                        whileHover={{ scale: 1.05 }}
+                        onClick={() => setSelectedImg(imageUrl)}
+                    >
+                        <img src={imageUrl} alt='pic' />
+                    </motion.div>
+                )
+            })}
         </div>
     )
 }
+
 
 export default ImageGrid;
